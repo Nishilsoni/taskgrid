@@ -4,14 +4,14 @@ import SwiftUI
 enum Theme {
     static let cornerRadius: CGFloat = 16
     static let cardHeight: CGFloat = 200
-    static let shadowColor = Color.black.opacity(0.06)
-    static let animationSpring = Animation.interpolatingSpring(stiffness: 170, damping: 20)
+    static let shadowColor = Color.black.opacity(0.04)
+    static let animationSpring = Animation.interpolatingSpring(stiffness: 120, damping: 18)
 }
 
 extension Font {
     static var appTitle: Font { .system(size: 28, weight: .bold) }
-    static var appSubtitle: Font { .system(size: 14, weight: .regular) }
-    static var cardTitle: Font { .system(size: 17, weight: .semibold) }
+    static var appSubtitle: Font { .system(size: 13, weight: .regular) }
+    static var cardTitle: Font { .system(size: 16, weight: .semibold) }
 }
 
 struct Elevated: ViewModifier {
@@ -19,7 +19,7 @@ struct Elevated: ViewModifier {
         content
             .background(RoundedRectangle(cornerRadius: Theme.cornerRadius).fill(Color.white))
             .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
-            .shadow(color: Theme.shadowColor, radius: 10, x: 0, y: 6)
+            .shadow(color: Theme.shadowColor, radius: 6, x: 0, y: 3)
     }
 }
 
