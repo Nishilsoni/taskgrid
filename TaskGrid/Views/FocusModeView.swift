@@ -31,17 +31,7 @@ struct FocusModeView: View {
     var body: some View {
         ZStack {
             // MARK: - Background Glass Effect
-            ZStack {
-                Color(UIColor.systemBackground).ignoresSafeArea()
-                LinearGradient(
-                    colors: [Color("CardBackground"), Color("Primary").opacity(0.06)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
-                // subtle blur/material overlay for depth
-                Rectangle().fill(.ultraThinMaterial).ignoresSafeArea().opacity(0.6)
-            }
+            Color.white.ignoresSafeArea()
 
             VStack(spacing: 28) {
                 // MARK: - Header + Meta
@@ -59,7 +49,7 @@ struct FocusModeView: View {
                             Text(task.emoji)
                                 .font(.system(size: 34))
                                 .padding(8)
-                                .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemBackground)))
+                                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
                                 .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 4)
 
                             Text(task.priority.rawValue.capitalized)
@@ -82,10 +72,7 @@ struct FocusModeView: View {
                     Circle()
                         .trim(from: 0, to: progress)
                         .stroke(
-                            AngularGradient(
-                                gradient: Gradient(colors: [Color("Primary"), Color("Secondary"), Color.purple]),
-                                center: .center
-                            ),
+                            Color("Primary"),
                             style: StrokeStyle(lineWidth: 20, lineCap: .round)
                         )
                         .rotationEffect(.degrees(-90))
@@ -136,9 +123,14 @@ struct FocusModeView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 14).fill(Color("Primary")))
                         .foregroundColor(.white)
-                        .shadow(color: Color("Primary").opacity(0.25), radius: 8, x: 0, y: 6)
+                        .background(
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 14).fill(Color("Primary"))
+                                RoundedRectangle(cornerRadius: 14).fill(.ultraThinMaterial).opacity(0.3)
+                            }
+                        )
+                        .shadow(color: Color("Primary").opacity(0.28), radius: 8, x: 0, y: 6)
                     }
 
                     Button(action: reset) {
@@ -146,9 +138,14 @@ struct FocusModeView: View {
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 14).fill(Color(UIColor.systemBackground)))
-                            .foregroundColor(.primary)
-                            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(UIColor.separator)))
+                            .foregroundColor(.white)
+                            .background(
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 14).fill(Color("Teal"))
+                                    RoundedRectangle(cornerRadius: 14).fill(.ultraThinMaterial).opacity(0.3)
+                                }
+                            )
+                            .shadow(color: Color("Teal").opacity(0.28), radius: 8, x: 0, y: 6)
                     }
                 }
                 .padding(.horizontal)
@@ -180,9 +177,11 @@ struct FocusModeView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(
-                        LinearGradient(gradient: Gradient(colors: [Color.green, Color("Primary")]), startPoint: .leading, endPoint: .trailing)
-                            .cornerRadius(16)
-                            .shadow(color: Color.green.opacity(0.28), radius: 12, x: 0, y: 8)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16).fill(Color.green)
+                            RoundedRectangle(cornerRadius: 16).fill(.thinMaterial).opacity(0.35)
+                        }
+                        .shadow(color: Color.green.opacity(0.35), radius: 14, x: 0, y: 8)
                     )
                     .scaleEffect(markPressed ? 0.96 : 1.0)
                 }

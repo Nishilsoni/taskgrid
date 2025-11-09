@@ -37,12 +37,12 @@ struct TaskCardView: View {
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous)
-                        .fill(LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemBackground).opacity(0.98), Color("CardBackground")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .fill(Color.white)
                         .overlay(
                             RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius)
                                 .stroke(Color(UIColor.separator).opacity(0.9))
                         )
-                        .shadow(color: colorScheme == .dark ? Color.white.opacity(0.03) : Color.black.opacity(0.12), radius: isPressed ? 3 : 12, x: 0, y: isPressed ? 1 : 10)
+                        .shadow(color: Color.black.opacity(0.12), radius: isPressed ? 3 : 12, x: 0, y: isPressed ? 1 : 10)
                         .matchedGeometryEffect(id: task.id, in: namespace)
                 )
                 .scaleEffect(isPressed ? 0.98 : (hover ? 1.01 : 1))

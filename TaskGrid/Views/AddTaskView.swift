@@ -74,10 +74,11 @@ struct AddTaskView: View {
 
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    .tint(Color("Primary"))
+                    .tint(Color("Orange"))
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { presentationMode.wrappedValue.dismiss() }
+                        .tint(Color("Teal"))
                         .tint(.secondary)
                 }
             }

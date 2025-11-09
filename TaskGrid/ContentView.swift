@@ -10,14 +10,14 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color("Primary"), Color("Secondary")], startPoint: .topLeading, endPoint: .bottomTrailing)
+            Color.white
                 .ignoresSafeArea()
             VStack(spacing: 12) {
                 Text("TaskGrid").font(.largeTitle).bold().foregroundColor(.primary)
                 Text("A focused, beautiful task board").foregroundColor(Color.secondary)
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.systemBackground).opacity(0.06)))
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color("Primary")))
             .padding()
         }
     }

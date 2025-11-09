@@ -2,9 +2,9 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var store: TaskStore
-    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
     @State private var selectedBoard: String = "Personal"
     @State private var showingAdd = false
+    @AppStorage("isSignedIn") private var isSignedIn: Bool = false
     @State private var showingNewBoardAlert = false
     @State private var newBoardName: String = ""
     @State private var boardToDelete: String? = nil
@@ -13,8 +13,8 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // background follows system color scheme (light/dark toggle)
-                Color(UIColor.systemBackground).ignoresSafeArea()
+                // background is always white
+                Color.white.ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     // header
@@ -25,21 +25,46 @@ struct HomeView: View {
                         }
                         Spacer()
                         HStack(spacing: 12) {
-                            Button(action: {
-                                isDarkMode.toggle()
-                                Haptics.selection()
-                            }) {
-                                Image(systemName: isDarkMode ? "sun.max.fill" : "moon.fill")
-                                    .foregroundColor(Color("Primary"))
-                                    .padding(8)
-                                    .background(Circle().fill(Color("Primary").opacity(0.08)))
+                            // Profile menu using native Menu (system-like)
+                            Menu {
+                                Button(action: { Haptics.selection(); /* open profile */ }) {
+                                    Label("Profile", systemImage: "person")
+                                }
+                                Button(action: { Haptics.selection(); /* open settings */ }) {
+                                    Label("Settings", systemImage: "gearshape")
+                                }
+                                Button(action: { Haptics.selection(); /* open help */ }) {
+                                    Label("Help & Feedback", systemImage: "questionmark.circle")
+                                }
+                                Divider()
+                                Button(role: .destructive, action: {
+                                    Haptics.notification(.warning)
+                                    isSignedIn = false
+                                }) {
+                                    Label("Log out", systemImage: "arrow.backward.circle")
+                                }
+                            } label: {
+                                Image(systemName: "person.crop.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 36, height: 36)
+                                    .foregroundColor(.white)
+                                    .background(Circle().fill(Color("Purple")))
+                                    .overlay(Circle().fill(.ultraThinMaterial).opacity(0.25))
+                                    .shadow(color: Color("Purple").opacity(0.25), radius: 6, x: 0, y: 3)
                             }
 
                             Button(action: { showingAdd = true }) {
                                 Image(systemName: "plus")
-                                    .foregroundColor(Color("Primary"))
+                                    .foregroundColor(.white)
                                     .padding(10)
-                                    .background(Circle().fill(Color("Primary").opacity(0.12)))
+                                    .background(
+                                        ZStack {
+                                            Circle().fill(Color("Primary"))
+                                            Circle().fill(.ultraThinMaterial).opacity(0.4)
+                                        }
+                                    )
+                                    .shadow(color: Color("Primary").opacity(0.28), radius: 6, x: 0, y: 3)
                             }
                         }
                     }
@@ -47,17 +72,20 @@ struct HomeView: View {
                     .padding(.top, 10)
                     .padding(.vertical, 8)
                     .background(
-                        // subtle material behind header for premium feel
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(Color(UIColor.systemBackground).opacity(0.8))
-                            .background(.ultraThinMaterial)
-                            .blur(radius: 0.6)
-                            .shadow(color: Color(UIColor.separator).opacity(0.06), radius: 8, x: 0, y: 6)
+                        // Apple-style frosted glass header with enhanced blur
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(Color.white.opacity(0.7))
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(.thinMaterial)
+                                .opacity(0.5)
+                        }
+                        .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 8)
                     )
                     .padding(.horizontal)
 
                     VStack(spacing: 0) {
-                ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(store.boards, id: \.self) { b in
                             BoardPill(title: b, isSelected: b == selectedBoard)
@@ -79,11 +107,13 @@ struct HomeView: View {
                         Button(action: { showingNewBoardAlert = true; Haptics.selection() }) {
                             HStack { Image(systemName: "plus.circle"); Text("Board") }
                         }
-                        .buttonStyle(AppButtonStyle())
+                        .buttonStyle(AppButtonStyle(color: Color("Purple")))
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 10)
                 }
+
+                
 
                 Divider().background(Color(UIColor.separator)).padding(.horizontal)
 
@@ -144,11 +174,10 @@ struct BoardPill: View {
                             Group {
                                     if isSelected {
                                         RoundedRectangle(cornerRadius: 16)
-                                            .fill(LinearGradient(colors: [Color("Primary"), Color("Secondary")], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                            .opacity(colorScheme == .dark ? 0.16 : 0.95)
+                                            .fill(Color("Primary"))
                                     } else {
                                         RoundedRectangle(cornerRadius: 16)
-                                            .fill(Color(UIColor.systemBackground).opacity(0.06))
+                                            .fill(Color.white.opacity(0.6))
                                     }
                             }
                         )

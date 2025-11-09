@@ -11,11 +11,16 @@ struct CardStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(
-                RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous)
-                    .fill(Color("CardBackground"))
+                ZStack {
+                    RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous)
+                        .fill(Color.white)
+                    RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.4)
+                }
             )
             .clipShape(RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous))
-            .shadow(color: Color.black.opacity(0.06), radius: UIConstants.cardShadowRadius, x: 0, y: 6)
+            .shadow(color: Color.black.opacity(0.08), radius: UIConstants.cardShadowRadius, x: 0, y: 6)
     }
 }
 
@@ -25,14 +30,28 @@ extension View {
     }
 }
 
+// Apple-style button with vibrant color and blur background
 struct AppButtonStyle: ButtonStyle {
+    var color: Color = Color("Primary")
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(RoundedRectangle(cornerRadius: 12).fill(Color("Primary")))
             .foregroundColor(.white)
+            .fontWeight(.semibold)
+            .background(
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(color)
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(.ultraThinMaterial)
+                        .opacity(0.3)
+                }
+            )
+            .shadow(color: color.opacity(0.28), radius: 8, x: 0, y: 4)
             .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
-            .opacity(configuration.isPressed ? 0.9 : 1.0)
+            .opacity(configuration.isPressed ? 0.88 : 1.0)
     }
 }
+

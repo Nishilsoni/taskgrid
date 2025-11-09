@@ -17,7 +17,7 @@ extension Font {
 struct Elevated: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(RoundedRectangle(cornerRadius: Theme.cornerRadius).fill(Color("CardBackground")))
+            .background(RoundedRectangle(cornerRadius: Theme.cornerRadius).fill(Color.white))
             .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
             .shadow(color: Theme.shadowColor, radius: 10, x: 0, y: 6)
     }

@@ -27,14 +27,14 @@ struct TaskDetailView: View {
                 .background(
                     ZStack {
                         RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous)
-                            .fill(LinearGradient(colors: [Color(UIColor.systemBackground).opacity(0.95), Color("CardBackground")], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .fill(Color.white)
                         // subtle material overlay to add depth and polish
                         RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                            .opacity(0.12)
+                            .fill(.thinMaterial)
+                            .opacity(0.25)
                     }
                     .overlay(RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius).stroke(Color(UIColor.separator).opacity(0.9)))
-                    .shadow(color: colorScheme == .dark ? Color.white.opacity(0.03) : Color.black.opacity(0.12), radius: 10, x: 0, y: 6)
+                    .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 6)
                     .matchedGeometryEffect(id: task.id, in: namespace ?? Namespace().wrappedValue)
                 )
 
@@ -43,7 +43,7 @@ struct TaskDetailView: View {
                     TextEditor(text: Binding($task.notes, replacingNilWith: ""))
                         .frame(minHeight: 100)
                         .padding(8)
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.systemBackground)))
+                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.8)))
             .opacity(contentAppeared ? 1 : 0)
             .offset(y: contentAppeared ? 0 : 6)
                 }.padding(.horizontal)
@@ -91,7 +91,15 @@ struct TaskDetailView: View {
                         DatePicker("Due date", selection: Binding($task.dueDate, replacingNilWith: Date()), displayedComponents: [.date, .hourAndMinute])
                     }
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius).fill(Color(UIColor.systemBackground)))
+                    .background(
+                        ZStack {
+                            RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius)
+                                .fill(Color.white.opacity(0.85))
+                            RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius)
+                                .fill(.ultraThinMaterial)
+                                .opacity(0.3)
+                        }
+                    )
                     .overlay(RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius).stroke(Color(UIColor.separator)))
 
                     // Toggle & actions card
@@ -105,20 +113,33 @@ struct TaskDetailView: View {
                             Button(action: saveAndDismiss) {
                                 Text("Save").frame(maxWidth: .infinity)
                             }
-                            .buttonStyle(AppButtonStyle())
+                            .buttonStyle(AppButtonStyle(color: Color("Orange")))
 
                             Button(action: { showDeleteConfirm = true }) {
                                 Text("Delete").frame(maxWidth: .infinity)
                             }
-                            .foregroundColor(.red)
+                            .foregroundColor(.white)
                             .padding(.horizontal)
                             .padding(.vertical, 10)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.systemBackground)))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(UIColor.separator)))
+                            .background(
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12).fill(Color("Red"))
+                                    RoundedRectangle(cornerRadius: 12).fill(.ultraThinMaterial).opacity(0.3)
+                                }
+                            )
+                            .shadow(color: Color("Red").opacity(0.28), radius: 6, x: 0, y: 3)
                         }
                     }
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius).fill(Color(UIColor.systemBackground)))
+                    .background(
+                        ZStack {
+                            RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius)
+                                .fill(Color.white.opacity(0.85))
+                            RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius)
+                                .fill(.ultraThinMaterial)
+                                .opacity(0.3)
+                        }
+                    )
                     .overlay(RoundedRectangle(cornerRadius: UIConstants.cardCornerRadius).stroke(Color(UIColor.separator)))
                 }
             }

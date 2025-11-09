@@ -9,7 +9,7 @@ import UserNotifications
 @main
 struct TaskGridApp: App {
     @StateObject private var store = TaskStore()
-    @AppStorage("isDarkMode") private var isDarkMode: Bool = false
+    @AppStorage("isSignedIn") private var isSignedIn: Bool = false
 
     init() {
         NotificationManager.shared.requestPermission()
@@ -17,9 +17,15 @@ struct TaskGridApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
-                .environmentObject(store)
-                .preferredColorScheme(isDarkMode ? .dark : .light)
+            if isSignedIn {
+                HomeView()
+                    .environmentObject(store)
+                    .preferredColorScheme(.light)
+            } else {
+                AuthView()
+                    .environmentObject(store)
+                    .preferredColorScheme(.light)
+            }
         }
     }
 }
