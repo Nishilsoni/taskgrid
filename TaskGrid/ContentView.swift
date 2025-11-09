@@ -9,13 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            LinearGradient(colors: [Color("Primary"), Color("Secondary")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
+            VStack(spacing: 12) {
+                Text("TaskGrid").font(.largeTitle).bold().foregroundColor(.primary)
+                Text("A focused, beautiful task board").foregroundColor(Color.secondary)
+            }
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.systemBackground).opacity(0.06)))
+            .padding()
         }
-        .padding()
     }
 }
 
